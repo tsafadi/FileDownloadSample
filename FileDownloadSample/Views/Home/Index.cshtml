@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Datei Download Beispiel</h1>
+    <h4>Author: Tom el Safadi</h4>
+    <p style="margin-top: 100px">Dies ist ein Beispiel, welches den Download einer Datei über einen Api Controller veranschaulicht.</p>
+    <button type="button" class="btn btn-primary" id="downloadButton">Download</button>
+</div>
+
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+    jQuery(document).ready(function () {
+        $("button").click(function () {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "Download/DownloadFile", true);
+            xhr.responseType = "blob";
+
+            xhr.onload = function (e) {
+                if (this.status == 200) {
+                    var blob = this.response;
+
+                    /* Get filename from Content-Disposition header */
+                    var filename = "";
+                    var disposition = xhr.getResponseHeader('Content-Disposition');
+                    if (disposition && disposition.indexOf('attachment') !== -1) {
+                        var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                        var matches = filenameRegex.exec(disposition);
+                        if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
+                    }
+
+                    // This does the trick
+                    var a = document.createElement('a');
+                    a.href = window.URL.createObjectURL(blob);
+                    a.download = filename;
+                    a.dispatchEvent(new MouseEvent('click'));
+                }
+            }
+            xhr.send();
+        });
+    });
+</script>
