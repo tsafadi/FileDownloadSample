@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FileDownloadSample.Controllers
 {
-    //[Route("api/[controller]")]
-    //[ApiController]
+    [Route("api/[controller]")]
+    [ApiController]
     public class DownloadController : ControllerBase
     {
         private IHostingEnvironment _hostingEnvironment;
@@ -19,7 +19,7 @@ namespace FileDownloadSample.Controllers
             _hostingEnvironment = environment;
         }
 
-        [HttpGet]
+        [HttpGet("DownloadFile")]
         public IActionResult DownloadFile()
         {
             // Since this is just and example, I am using a local file located inside wwwroot
