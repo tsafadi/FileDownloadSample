@@ -28,7 +28,7 @@ namespace FileDownloadSample.Controllers
             var fs = new FileStream(path, FileMode.Open);
 
             // Return the file. A byte array can also be used instead of a stream
-            return File(fs, "application/ocet-stream", "Sample.xlsx");
+            return File(fs, "application/octet-stream", "Sample.xlsx");
         }
     }
 }
